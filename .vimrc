@@ -8,12 +8,21 @@ call plug#begin('~/.vim/plugged')
 " Appearance
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'rakr/vim-one'
+Plug 'itchyny/lightline.vim'
 
+"Easy escape keys
 Plug 'zhou13/vim-easyescape'
+"Nerd tree
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+" Autocomplete plugin
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } 
+"Go build plugin
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" git related
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 call plug#end()
 
@@ -31,6 +40,7 @@ augroup END
 set showcmd
 set statusline=%F%m%r%h%w\ [Format\ =\ %{&ff}]\ [Type\ =\ %Y]\ [Ascii\ =\ \%03.3b]\ [Hex\ =\ \%02.2B]\ [Cursor\ pos\ =\ %04l,%04v][%p%%]\ [Total\ Length\ =\ %L] 
 set laststatus=2
+set noshowmode
 "Set keybindings for ESC using vim-easyescape plugin
 let g:easyescape_chars = { "j": 1, "k": 1 }
 let g:easyescape_timeout = 100
@@ -62,7 +72,7 @@ au Filetype go nnoremap <leader>t :tab split <CR>:exe "GoDef"<CR>
 
 " Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
-
+airblade/vim-gitgutter
 "************* Enable true colors if available ******************************
 if (has("nvim"))
   "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
@@ -79,4 +89,8 @@ endif
 
 set background=dark
 colorscheme one
+
 " let g:lightline.colorscheme = 'palenight'
+
+" Shortcut for reloading vimrc
+nnoremap <Leader>r :source $MYVIMRC<CR>
