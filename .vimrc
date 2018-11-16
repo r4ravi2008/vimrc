@@ -72,7 +72,7 @@ au Filetype go nnoremap <leader>t :tab split <CR>:exe "GoDef"<CR>
 
 " Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
-airblade/vim-gitgutter
+":
 "************* Enable true colors if available ******************************
 if (has("nvim"))
   "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
