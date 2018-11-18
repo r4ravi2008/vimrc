@@ -8,9 +8,10 @@ call plug#begin('~/.vim/plugged')
 " Appearance
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'rakr/vim-one'
+Plug 'morhetz/gruvbox'
 Plug 'itchyny/lightline.vim'
 
-"Easy escape keys
+"Eksy escape keys
 Plug 'zhou13/vim-easyescape'
 "Nerd tree
 Plug 'scrooloose/nerdtree'
@@ -28,6 +29,8 @@ call plug#end()
 
 set number
 set relativenumber
+let mapleader = ","
+let maplocalleader = "."
 
 " Automatically toggles between relative and absolute number modes when entering and exiting insert mode
 augroup numbertoggle
@@ -50,8 +53,8 @@ cnoremap kj <ESC>
 "Toggle nerdtree using Ctrl+n
 map <C-n> :NERDTreeToggle<CR>
 "Open Nerd Tree automatically when vim startsup with no files specified.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+au StdinReadPre * let s:std_in=1
+au VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 "*************vim-go plugin settings*****************
 " use goimports for formatting
@@ -70,7 +73,7 @@ au Filetype go nnoremap <leader>s :sp <CR>:exe "GoDef"<CR>
 au Filetype go nnoremap <leader>t :tab split <CR>:exe "GoDef"<CR>
 "*************vim-go plugin settings end*****************
 
-" Allow backspacing over everything in insert mode
+" Allow reloaddover everything in insert mode
 set backspace=indent,eol,start
 ":
 "************* Enable true colors if available ******************************
@@ -92,5 +95,17 @@ colorscheme one
 
 " let g:lightline.colorscheme = 'palenight'
 
-" Shortcut for reloading vimrc
+" reloading vimrc
 nnoremap <Leader>r :source $MYVIMRC<CR>
+" edit vimrc
+nnoremap <Leader>e :edit $MYVIMRC<CR>
+
+" gruvbox settings
+let g:gruvbox_italic = 1
+let g:gruvbox_termcolors = 256
+let g:gruvbox_contrast_dark = 'soft'
+let g:gruvbox_contrast_light = 'soft'
+let g:gruvbox_italicize_comments = 1
+
+" Make any help doc split vertically instead of horizontal
+au FileType help wincmd L
