@@ -11,6 +11,9 @@ Plug 'rakr/vim-one'
 Plug 'morhetz/gruvbox'
 Plug 'itchyny/lightline.vim'
 
+" Fully file,buffer, mru, tag finder
+Plug 'ctrlpvim/ctrlp.vim'
+
 "Eksy escape keys
 Plug 'zhou13/vim-easyescape'
 "Nerd tree
@@ -20,6 +23,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } 
 "Go build plugin
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+Plug 'tpope/vim-surround'
 
 " git related
 Plug 'tpope/vim-fugitive'
@@ -68,9 +73,12 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
 " Open go doc in vertical window, horizontal, or tab
-au Filetype go nnoremap <leader>v :vsp <CR>:exe "GoDef" <CR>
-au Filetype go nnoremap <leader>s :sp <CR>:exe "GoDef"<CR>
-au Filetype go nnoremap <leader>t :tab split <CR>:exe "GoDef"<CR>
+augroup go_file_group
+	autocmd!
+	au Filetype go nnoremap <leader>v :vsp <CR>:exe "GoDef" <CR>
+	au Filetype go nnoremap <leader>s :sp <CR>:exe "GoDef"<CR>
+	au Filetype go nnoremap <leader>t :tab split <CR>:exe "GoDef"<CR>
+augroup END
 "*************vim-go plugin settings end*****************
 
 " Allow reloaddover everything in insert mode
@@ -98,7 +106,7 @@ colorscheme one
 " reloading vimrc
 nnoremap <Leader>r :source $MYVIMRC<CR>
 " edit vimrc
-nnoremap <Leader>e :edit $MYVIMRC<CR>
+nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
 
 " gruvbox settings
 let g:gruvbox_italic = 1
@@ -109,3 +117,7 @@ let g:gruvbox_italicize_comments = 1
 
 " Make any help doc split vertically instead of horizontal
 au FileType help wincmd L
+
+" to move to the end of the line or start of the line
+nnoremap L $<esc>
+nnoremap H I<esc>
