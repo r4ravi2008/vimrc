@@ -1,4 +1,3 @@
-
 " ######## Plugin Manager Start ##########
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
@@ -8,7 +7,6 @@ call plug#begin('~/.vim/plugged')
 " Appearance
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'rakr/vim-one'
-Plug 'morhetz/gruvbox'
 Plug 'itchyny/lightline.vim'
 
 " Fully file,buffer, mru, tag finder
@@ -29,6 +27,11 @@ Plug 'tpope/vim-surround'
 " git related
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'itchyny/lightline.vim'
+Plug 'bling/vim-bufferline'
+Plug 'itchyny/landscape.vim'
+Plug 'joshdick/onedark.vim'
+Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 
@@ -98,8 +101,13 @@ if (has("termguicolors"))
 endif
 "************* Enable true colors if available end ******************************
 
-set background=dark
-colorscheme one
+" set background=dark
+syntax on
+colorscheme landscape
+" set guifont=Fira\ Code:h12
+set guifont=Monaco:h12
+set lines=70
+set columns=100
 
 " let g:lightline.colorscheme = 'palenight'
 
@@ -107,13 +115,6 @@ colorscheme one
 nnoremap <Leader>r :source $MYVIMRC<CR>
 " edit vimrc
 nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
-
-" gruvbox settings
-let g:gruvbox_italic = 1
-let g:gruvbox_termcolors = 256
-let g:gruvbox_contrast_dark = 'soft'
-let g:gruvbox_contrast_light = 'soft'
-let g:gruvbox_italicize_comments = 1
 
 " Make any help doc split vertically instead of horizontal
 au FileType help wincmd L
