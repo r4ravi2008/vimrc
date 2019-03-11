@@ -7,7 +7,6 @@ call plug#begin('~/.vim/plugged')
 " Appearance
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'rakr/vim-one'
-Plug 'itchyny/lightline.vim'
 
 " Fully file,buffer, mru, tag finder
 Plug 'ctrlpvim/ctrlp.vim'
@@ -24,6 +23,15 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 Plug 'tpope/vim-surround'
 
+" yaml stuff
+Plug 'mrk21/yaml-vim'
+
+" csv plugin
+Plug 'chrisbra/csv.vim'
+
+" scala plugin
+Plug 'derekwyatt/vim-scala'
+
 " git related
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -32,6 +40,8 @@ Plug 'bling/vim-bufferline'
 Plug 'itchyny/landscape.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
+Plug 'rstacruz/vim-closer'
 
 call plug#end()
 
@@ -106,8 +116,6 @@ syntax on
 colorscheme landscape
 " set guifont=Fira\ Code:h12
 set guifont=Monaco:h12
-set lines=70
-set columns=100
 
 " let g:lightline.colorscheme = 'palenight'
 
@@ -122,3 +130,51 @@ au FileType help wincmd L
 " to move to the end of the line or start of the line
 nnoremap L $<esc>
 nnoremap H I<esc>
+
+" Center cursor to the middle of the screen automatically
+set scrolloff=0
+if !exists('*VCenterCursor')
+  augroup VCenterCursor
+  au!
+  au OptionSet *,*.*
+    \ if and( expand("<amatch>")=='scrolloff' ,
+    \         exists('#VCenterCursor#WinEnter,WinNew,VimResized') )|
+    \   au! VCenterCursor WinEnter,WinNew,VimResized|
+    \ endif
+  augroup END
+  function VCenterCursor()
+    if !exists('#VCenterCursor#WinEnter,WinNew,VimResized')
+      let s:default_scrolloff=&scrolloff
+      let &scrolloff=winheight(win_getid())/2
+      au VCenterCursor WinEnter,WinNew,VimResized *,*.*
+        \ let &scrolloff=winheight(win_getid())/2
+    else
+      au! VCenterCursor WinEnter,WinNew,VimResized
+      let &scrolloff=s:default_scrolloff
+    endif
+  endfunction
+endif
+
+nnoremap <leader>zz :call VCenterCursor()<CR>
+
+" yaml code folding
+" add yaml stuffs
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" Polyglot plugin stuff
+let g:polyglot_disabled = ['scala']
+
+" auto expand brackets
+inoremap (; (<CR>);<C-c>O
+inoremap (, (<CR>),<C-c>O
+inoremap {; {<CR>};<C-c>O
+inoremap {, {<CR>},<C-c>O
+inoremap [; [<CR>];<C-c>O
+inoremap [, [<CR>],<C-c>O
+
+" copy to system keyboard
+noremap <Leader>y "*y
+noremap <Leader>p "*p
+noremap <Leader>Y "+y
+noremap <Leader>P "+p
