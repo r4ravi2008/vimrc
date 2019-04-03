@@ -22,6 +22,7 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 
 " yaml stuff
 Plug 'mrk21/yaml-vim'
@@ -42,6 +43,9 @@ Plug 'joshdick/onedark.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 Plug 'rstacruz/vim-closer'
+Plug 'GEverding/vim-hocon'
+
+Plug 'kana/vim-submode'
 
 call plug#end()
 
@@ -162,6 +166,8 @@ nnoremap <leader>zz :call VCenterCursor()<CR>
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
+set nofoldenable
+
 " Polyglot plugin stuff
 let g:polyglot_disabled = ['scala']
 
@@ -178,3 +184,30 @@ noremap <Leader>y "*y
 noremap <Leader>p "*p
 noremap <Leader>Y "+y
 noremap <Leader>P "+p
+
+" set YMC utf
+set encoding=utf-8
+
+" resize windows
+nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>1
+
+
+" Go to tab by number
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
+
+" create submode for prev/next windows
+call submode#enter_with('next/prev', 'n', '', '<leader><left>', 'gT')
+call submode#enter_with('next/prev', 'n', '', '<leader><right>', 'gt')
+call submode#map('next/prev', 'n', '', '<left>', 'gT')
+call submode#map('next/prev', 'n', '', '<right>', 'gt')
+
