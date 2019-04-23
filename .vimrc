@@ -33,6 +33,8 @@ Plug 'chrisbra/csv.vim'
 " scala plugin
 Plug 'derekwyatt/vim-scala'
 
+Plug '907th/vim-auto-save'
+
 " git related
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -48,6 +50,12 @@ Plug 'GEverding/vim-hocon'
 Plug 'kana/vim-submode'
 
 call plug#end()
+
+
+" set swap, undo, backupfiles locations
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
 
 set number
 set relativenumber
@@ -206,8 +214,10 @@ noremap <leader>9 9gt
 noremap <leader>0 :tablast<cr>
 
 " create submode for prev/next windows
-call submode#enter_with('next/prev', 'n', '', '<leader><left>', 'gT')
-call submode#enter_with('next/prev', 'n', '', '<leader><right>', 'gt')
+call submode#enter_with('next/prev', 'n', '', '<left>', 'gT')
+call submode#enter_with('next/prev', 'n', '', '<right>', 'gt')
 call submode#map('next/prev', 'n', '', '<left>', 'gT')
 call submode#map('next/prev', 'n', '', '<right>', 'gt')
 
+" enable autosave on startup
+let g:auto_save = 1
