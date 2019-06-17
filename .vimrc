@@ -1,4 +1,4 @@
-" ######## Plugin Manager Start ##########
+" #######, Plugin Manager Star, ##########
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
@@ -49,6 +49,9 @@ Plug 'GEverding/vim-hocon'
 
 Plug 'kana/vim-submode'
 
+"Log syntax
+Plug 'mtdl9/vim-log-highlighting'
+
 call plug#end()
 
 
@@ -85,6 +88,7 @@ map <C-n> :NERDTreeToggle<CR>
 "Open Nerd Tree automatically when vim startsup with no files specified.
 au StdinReadPre * let s:std_in=1
 au VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "*************vim-go plugin settings*****************
 " use goimports for formatting
@@ -134,7 +138,7 @@ set guifont=Monaco:h12
 " reloading vimrc
 nnoremap <Leader>r :source $MYVIMRC<CR>
 " edit vimrc
-nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <Leader>ev :tabnew $MYVIMRC<CR>
 
 " Make any help doc split vertically instead of horizontal
 au FileType help wincmd L
@@ -221,3 +225,9 @@ call submode#map('next/prev', 'n', '', '<right>', 'gt')
 
 " enable autosave on startup
 let g:auto_save = 1
+
+" open ctrlp in new tab
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
+    \ 'AcceptSelection("t")': ['<cr>'],
+    \ }
