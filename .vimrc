@@ -8,9 +8,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'rakr/vim-one'
 
-" Fully file,buffer, mru, tag finder
-Plug 'ctrlpvim/ctrlp.vim'
-
 "Eksy escape keys
 Plug 'zhou13/vim-easyescape'
 "Nerd tree
@@ -18,8 +15,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " Autocomplete plugin
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } 
-"Go build plugin
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -46,11 +41,16 @@ Plug 'sheerun/vim-polyglot'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 Plug 'rstacruz/vim-closer'
 Plug 'GEverding/vim-hocon'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
 
 Plug 'kana/vim-submode'
 
 "Log syntax
 Plug 'mtdl9/vim-log-highlighting'
+
+" Google AutoFormatter
 
 call plug#end()
 
@@ -90,26 +90,6 @@ au StdinReadPre * let s:std_in=1
 au VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-"*************vim-go plugin settings*****************
-" use goimports for formatting
-let g:go_fmt_command = "goimports"
-
-" turn highlighting on
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_structs = 2
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
-" Open go doc in vertical window, horizontal, or tab
-augroup go_file_group
-	autocmd!
-	au Filetype go nnoremap <leader>v :vsp <CR>:exe "GoDef" <CR>
-	au Filetype go nnoremap <leader>s :sp <CR>:exe "GoDef"<CR>
-	au Filetype go nnoremap <leader>t :tab split <CR>:exe "GoDef"<CR>
-augroup END
-"*************vim-go plugin settings end*****************
-
 " Allow reloaddover everything in insert mode
 set backspace=indent,eol,start
 ":
@@ -131,7 +111,7 @@ endif
 syntax on
 colorscheme landscape
 " set guifont=Fira\ Code:h12
-set guifont=Monaco:h12
+" "set guifont=Monaco:h12
 
 " let g:lightline.colorscheme = 'palenight'
 
@@ -139,7 +119,7 @@ set guifont=Monaco:h12
 nnoremap <Leader>r :source $MYVIMRC<CR>
 " edit vimrc
 nnoremap <Leader>ev :tabnew $MYVIMRC<CR>
-
+nnoremap <Leader>et :tabnew ~/.vimrc<CR> 
 " Make any help doc split vertically instead of horizontal
 au FileType help wincmd L
 
@@ -184,12 +164,13 @@ set nofoldenable
 let g:polyglot_disabled = ['scala']
 
 " auto expand brackets
-inoremap (; (<CR>);<C-c>O
-inoremap (, (<CR>),<C-c>O
-inoremap {; {<CR>};<C-c>O
-inoremap {, {<CR>},<C-c>O
-inoremap [; [<CR>];<C-c>O
-inoremap [, [<CR>],<C-c>O
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
 
 " copy to system keyboard
 noremap <Leader>y "*y
@@ -225,9 +206,3 @@ call submode#map('next/prev', 'n', '', '<right>', 'gt')
 
 " enable autosave on startup
 let g:auto_save = 1
-
-" open ctrlp in new tab
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
-    \ 'AcceptSelection("t")': ['<cr>'],
-    \ }
