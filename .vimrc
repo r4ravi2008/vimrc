@@ -14,7 +14,7 @@ Plug 'zhou13/vim-easyescape'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " Autocomplete plugin
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } 
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -44,37 +44,57 @@ Plug 'GEverding/vim-hocon'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'tomtom/tcomment_vim'
+Plug 'easymotion/vim-easymotion'
+Plug 'nathanaelkane/vim-indent-guides'
 
 Plug 'kana/vim-submode'
 
 "Log syntax
 Plug 'mtdl9/vim-log-highlighting'
-
-" Google AutoFormatter
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'wesQ3/vim-windowswap'
+Plug 'zxqfl/tabnine-vim'
 
 call plug#end()
-
 
 " set swap, undo, backupfiles locations
 set backupdir=~/.vim/backup//
 set directory=~/.vim/swap//
 set undodir=~/.vim/undo//
 
-set number
-set relativenumber
 let mapleader = ","
 let maplocalleader = "."
 
+function! LineNums()
+    if !exists('#numbertoggle#BufEnter')
+	" Automatically toggles between relative and absolute number modes when entering and exiting insert mode
+	augroup numbertoggle
+	    autocmd!
+	    autocmd Bufenter,Focusgained,InsertLeave * set relativenumber nonumber
+	    autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber number
+	augroup END
+    else
+	augroup numbertoggle
+	    autocmd!
+	    autocmd * set norelativenumber nonumber
+	augroup END
+    endif
+endfunction
+
+nnoremap <leader>num :call LineNums()<CR>
+
+
 " Automatically toggles between relative and absolute number modes when entering and exiting insert mode
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
-augroup END
+""augroup numbertoggle
+  ""autocmd!
+  ""autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+  ""autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
+""augroup END
 
 "Show key strokes
 set showcmd
-set statusline=%F%m%r%h%w\ [Format\ =\ %{&ff}]\ [Type\ =\ %Y]\ [Ascii\ =\ \%03.3b]\ [Hex\ =\ \%02.2B]\ [Cursor\ pos\ =\ %04l,%04v][%p%%]\ [Total\ Length\ =\ %L] 
+set statusline=%F%m%r%h%w\ [Format\ =\ %{&ff}]\ [Type\ =\ %Y]\ [Ascii\ =\ \%03.3b]\ [Hex\ =\ \%02.2B]\ [Cursor\ pos\ =\ %04l,%04v][%p%%]\ [Total\ Length\ =\ %L]
 set laststatus=2
 set noshowmode
 "Set keybindings for ESC using vim-easyescape plugin
@@ -119,7 +139,7 @@ colorscheme landscape
 nnoremap <Leader>r :source $MYVIMRC<CR>
 " edit vimrc
 nnoremap <Leader>ev :tabnew $MYVIMRC<CR>
-nnoremap <Leader>et :tabnew ~/.vimrc<CR> 
+nnoremap <Leader>et :tabnew ~/.vimrc<CR>
 " Make any help doc split vertically instead of horizontal
 au FileType help wincmd L
 
@@ -206,3 +226,49 @@ call submode#map('next/prev', 'n', '', '<right>', 'gt')
 
 " enable autosave on startup
 let g:auto_save = 1
+
+" vim-indent-guide settings
+let g:indent_guides_guide_size = 1
+let g:indent_guides_color_change_percent = 10
+let g:indent_guides_enable_on_vim_startup = 1
+
+"==================
+" FZF bindings
+"==================
+" Buffers Navigation
+nnoremap <leader>bn :bnext<CR>
+nnoremap <leader>bk :bd<CR>
+" Last used buffer"
+nnoremap <leader>bl :ls<cr>:b<space>
+
+" Show all buffers
+noremap <leader>bb  :Buffers<CR>
+" Open all buffers in tabs
+noremap <leader>bt :bufdo tab split<CR>
+
+" Search for word under the cursor
+nnoremap <leader>fw :Rg <C-R><C-W><CR>
+" Search all commands
+nnoremap <leader><leader><leader> :Commands<CR>
+nnoremap <leader>m :FZF <CR>
+nnoremap <leader>. :GitFiles <CR>
+nnoremap <leader>./ :GitFiles?<CR>
+"
+" Javascript autostyle using prettier. Install Prettier first using: npm install -g prettier
+autocmd FileType javascript set formatprg=prettier\ --stdin
+
+"Easy splits
+nnoremap <leader>wv :vsplit<CR>
+nnoremap <leader>ws :split<CR>
+nnoremap <leader>wq :close<CR>
+
+" Easy window navigation
+nnoremap <leader>wj <C-W><C-J>
+nnoremap <leader>wk <C-W><C-K>
+nnoremap <leader>wl <C-W><C-L>
+nnoremap <leader>wh <C-W><C-H>
+
+" JSON with comment support"
+autocmd FileType json syntax match Comment +\/\/.\+$+
+
+au BufRead,BufNewFile *.sbt set filetype=scala
